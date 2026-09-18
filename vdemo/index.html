@@ -1,0 +1,1680 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Неон Сити — Разработка систем навигации и визуальной коммуникации</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #e30016;
+            --primary-dark: #b80012;
+            --dark: #0a0a0a;
+            --dark-2: #111111;
+            --dark-3: #1a1a1a;
+            --dark-4: #222222;
+            --gray: #888888;
+            --light-gray: #cccccc;
+            --white: #ffffff;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--dark);
+            color: var(--white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background 0.3s ease;
+        }
+
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 15px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--white);
+        }
+
+        .logo img {
+            max-height: 42px;
+            width: auto;
+            display: block;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        nav ul {
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav ul li a {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--light-gray);
+            position: relative;
+            padding: 5px 0;
+        }
+
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: var(--white);
+        }
+
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+
+        .header-phone {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--white);
+        }
+
+        .header-phone a {
+            color: var(--white);
+        }
+
+        .header-phone a:hover {
+            color: var(--primary);
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 2px;
+            background: var(--white);
+            transition: all 0.3s ease;
+        }
+
+        /* HERO */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--dark) 0%, var(--dark-2) 50%, #0d0d0d 100%);
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(227, 0, 22, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 6s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -10%;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 212, 255, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 8s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 1; }
+        }
+
+        .hero .container {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--primary);
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+        }
+
+        .hero h1 span {
+            color: var(--primary);
+        }
+
+        .hero-desc {
+            font-size: 17px;
+            color: var(--light-gray);
+            line-height: 1.7;
+            margin-bottom: 40px;
+            max-width: 550px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: var(--primary);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(227, 0, 22, 0.3);
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 14px 32px;
+            background: transparent;
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline:hover {
+            border-color: var(--white);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 50px;
+            z-index: 2;
+            flex-shrink: 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--white);
+        }
+
+        .stat-number span {
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--gray);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 5px;
+        }
+
+        /* SECTION COMMON */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-label {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--primary);
+        }
+
+        .section-title {
+            font-size: 40px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            line-height: 1.15;
+        }
+
+        .section-desc {
+            font-size: 16px;
+            color: var(--light-gray);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 50px;
+        }
+
+        /* ABOUT */
+        .about {
+            background: var(--dark-2);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(135deg, var(--dark-3), var(--dark-4));
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .about-video {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            background: #000;
+        }
+
+        .about-image-label {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--gray);
+        }
+
+        .about-text p {
+            font-size: 16px;
+            color: var(--light-gray);
+            margin-bottom: 20px;
+            line-height: 1.7;
+        }
+
+        .about-features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .about-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .about-feature i {
+            color: var(--primary);
+            font-size: 18px;
+            margin-top: 3px;
+        }
+
+        .about-feature span {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        /* SERVICES */
+        .services {
+            background: var(--dark);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .service-card {
+            background: var(--dark-2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 30px;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-card:hover {
+            border-color: rgba(227, 0, 22, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(227, 0, 22, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            font-size: 24px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover .service-icon {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .service-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        .service-card p {
+            font-size: 14px;
+            color: var(--gray);
+            line-height: 1.6;
+        }
+
+        /* PORTFOLIO */
+        .portfolio {
+            background: var(--dark-2);
+        }
+
+        .portfolio-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .portfolio-card {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+            cursor: pointer;
+            background: var(--dark-3);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .portfolio-card-bg {
+            position: absolute;
+            inset: 0;
+            transition: transform 0.5s ease;
+        }
+
+        .portfolio-slider {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+        }
+
+        .portfolio-slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            z-index: 0;
+        }
+
+        .portfolio-slide.active {
+            opacity: 1;
+        }
+
+        .portfolio-slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            border: none;
+            color: var(--white);
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 12px;
+            z-index: 5;
+            transition: background 0.3s ease;
+        }
+
+        .portfolio-slider-btn:hover {
+            background: var(--primary);
+        }
+
+        .portfolio-slider-btn.prev {
+            left: 10px;
+        }
+
+        .portfolio-slider-btn.next {
+            right: 10px;
+        }
+
+        .portfolio-slider-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 5;
+        }
+
+        .portfolio-slider-dots span {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.4);
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .portfolio-slider-dots span.active {
+            background: var(--primary);
+        }
+
+        .portfolio-card:nth-child(3) .portfolio-card-bg {
+            background: linear-gradient(135deg, #0a0a1a, #0a0a2d, #05051a);
+        }
+        .portfolio-card:nth-child(4) .portfolio-card-bg {
+            background: linear-gradient(135deg, #1a1a0a, #2d2a0a, #1a1a05);
+        }
+        .portfolio-card:nth-child(5) .portfolio-card-bg {
+            background: linear-gradient(135deg, #1a0a1a, #2d0a2d, #1a051a);
+        }
+        .portfolio-card:nth-child(6) .portfolio-card-bg {
+            background: linear-gradient(135deg, #0a1a0a, #0a2d0a, #051a05);
+        }
+
+        .portfolio-card:hover .portfolio-card-bg {
+            transform: scale(1.05);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.1) 70%, transparent 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            z-index: 2;
+        }
+
+        .portfolio-category {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--white);
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+            margin-bottom: 8px;
+        }
+
+        .portfolio-card h3 {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .portfolio-card p {
+            font-size: 13px;
+            color: var(--light-gray);
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+        }
+
+        .portfolio-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 50px;
+            color: rgba(255, 255, 255, 0.06);
+            z-index: 1;
+        }
+
+        /* CLIENTS */
+        .clients {
+            background: var(--dark-1);
+        }
+
+        .clients-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .client-item {
+            width: calc(20% - 16px);
+            min-width: 160px;
+            height: 110px;
+            background: var(--white);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .client-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .client-item img {
+            max-width: 100%;
+            max-height: 52px;
+            object-fit: contain;
+        }
+
+        /* ADVANTAGES */
+        .advantages {
+            background: var(--dark);
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .advantage-item {
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--dark-2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            border-color: rgba(227, 0, 22, 0.3);
+        }
+
+        .advantage-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 48px;
+            font-weight: 800;
+            color: var(--primary);
+            text-shadow: 0 0 24px rgba(227, 0, 22, 0.6);
+            margin-bottom: 15px;
+        }
+
+        .advantage-item h4 {
+            font-size: 15px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .advantage-item p {
+            font-size: 13px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* PROCESS */
+        .process {
+            background: var(--dark-2);
+        }
+
+        .process-steps {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            position: relative;
+        }
+
+        .process-steps::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: rgba(227, 0, 22, 0.2);
+        }
+
+        .process-step {
+            text-align: center;
+            position: relative;
+            padding: 0 10px;
+        }
+
+        .step-icon {
+            width: 80px;
+            height: 80px;
+            background: var(--dark);
+            border: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 28px;
+            color: var(--primary);
+            position: relative;
+            z-index: 2;
+        }
+
+        .step-number {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .process-step h4 {
+            font-size: 14px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .process-step p {
+            font-size: 12px;
+            color: var(--gray);
+            line-height: 1.5;
+        }
+
+        /* CTA */
+        .cta {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            padding: 80px 0;
+        }
+
+        .cta-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .cta-text h2 {
+            font-size: 36px;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .cta-text p {
+            font-size: 16px;
+            opacity: 0.8;
+        }
+
+        .cta .btn-outline {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        .cta .btn-outline:hover {
+            background: var(--white);
+            color: var(--primary);
+            border-color: var(--white);
+        }
+
+        /* CONTACTS */
+        .contacts {
+            background: var(--dark);
+        }
+
+        .contacts-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .contact-info h3 {
+            font-size: 24px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+            margin-bottom: 24px;
+        }
+
+        .contact-item i {
+            width: 40px;
+            height: 40px;
+            background: rgba(227, 0, 22, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .contact-item-text span {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gray);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .contact-item-text a,
+        .contact-item-text p {
+            font-size: 16px;
+            color: var(--white);
+        }
+
+        .contact-item-text a:hover {
+            color: var(--primary);
+        }
+
+        .contact-form {
+            background: var(--dark-2);
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .contact-form h3 {
+            font-size: 20px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--white);
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+        }
+
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--gray);
+        }
+
+        .contact-form .btn-primary {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* FOOTER */
+        footer {
+            background: var(--dark-2);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 40px 0;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .footer-logo img {
+            max-height: 33px;
+            width: auto;
+            display: block;
+        }
+
+        .footer-copy {
+            font-size: 13px;
+            color: var(--gray);
+        }
+
+        .footer-socials {
+            display: flex;
+            gap: 10px;
+        }
+
+        .footer-socials a {
+            width: 36px;
+            height: 36px;
+            background: var(--dark-3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .footer-socials a:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.9);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-img {
+            max-width: 90vw;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 6px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            animation: lightboxFade 0.3s ease;
+        }
+
+        @keyframes lightboxFade {
+            from { opacity: 0; transform: scale(0.96); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            z-index: 2;
+            color: var(--white);
+            font-size: 20px;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.12);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-close:hover {
+            background: var(--primary);
+        }
+
+        .lightbox-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 2;
+            background: rgba(255, 255, 255, 0.12);
+            border: none;
+            color: var(--white);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.3s ease;
+        }
+
+        .lightbox-btn:hover {
+            background: var(--primary);
+        }
+
+        .lightbox-btn.prev { left: 20px; }
+        .lightbox-btn.next { right: 20px; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .hero h1 { font-size: 40px; }
+            .services-grid { grid-template-columns: repeat(2, 1fr); }
+            .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+            .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+            .process-steps { grid-template-columns: repeat(3, 1fr); gap: 30px; }
+            .process-steps::before { display: none; }
+            .hero-stats { display: flex; margin-top: 40px; gap: 30px; flex-wrap: wrap; }
+            .client-item { width: calc(25% - 16px); }
+        }
+
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10, 10, 10, 0.98);
+                flex-direction: column;
+                padding: 20px;
+                gap: 0;
+                border-top: 1px solid rgba(255, 255, 255, 0.05);
+            }
+
+            nav ul.active { display: flex; }
+
+            nav ul li { padding: 10px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+            nav ul li a { font-size: 14px; }
+
+            .header-phone { display: none; }
+
+            .hero h1 { font-size: 32px; }
+            .section-title { font-size: 28px; }
+            .about-grid { grid-template-columns: 1fr; }
+            .about-image { height: 300px; }
+            .services-grid { grid-template-columns: 1fr; }
+            .portfolio-grid { grid-template-columns: 1fr; }
+            .advantages-grid { grid-template-columns: 1fr; }
+            .process-steps { grid-template-columns: 1fr; }
+            .contacts-grid { grid-template-columns: 1fr; }
+            .cta-content { flex-direction: column; text-align: center; gap: 20px; }
+            .footer-inner { flex-direction: column; gap: 15px; text-align: center; }
+            .about-features { grid-template-columns: 1fr; }
+            .client-item { width: calc(33.333% - 16px); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+    <div class="header-inner">
+        <a href="#" class="logo"><img src="logo-ns.png" alt="Неон Сити"></a>
+        <nav>
+            <ul id="mainMenu">
+                <li><a href="#about">О компании</a></li>
+                <li><a href="#services">Услуги</a></li>
+                <li><a href="#portfolio">Проекты</a></li>
+                <li><a href="#process">Как мы работаем</a></li>
+                <li><a href="#contacts">Контакты</a></li>
+            </ul>
+        </nav>
+        <div class="header-phone">
+            <a href="tel:+74957305454">+7 (495) 730-54-54</a>
+        </div>
+        <div class="menu-toggle" onclick="document.getElementById('mainMenu').classList.toggle('active')">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-label">Разработка &amp; Производство</div>
+            <h1>Системы навигации и <span>визуальной коммуникации</span></h1>
+            <p class="hero-desc">Проектируем, производим и устанавливаем навигационные системы, вывески, информационные стенды и элементы визуальной коммуникации для коммерческих и городских пространств.</p>
+            <div class="hero-buttons">
+                <a href="#contacts" class="btn-primary">Обсудить проект <i class="fas fa-arrow-right"></i></a>
+                <a href="#portfolio" class="btn-outline">Наши проекты</a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-item">
+                <div class="stat-number">30<span>+</span></div>
+                <div class="stat-label">Лет опыта</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">1200<span>+</span></div>
+                <div class="stat-label">Проектов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98<span>%</span></div>
+                <div class="stat-label">Клиентов возвращаются</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+    <div class="container">
+        <div class="about-grid">
+            <div class="about-image">
+                <iframe class="about-video" src="https://rutube.ru/play/embed/2c3f105f5631359da24194a37cf0ce2b?autoplay=true" frameborder="0" allow="clipboard-write; autoplay; encrypted-media; picture-in-picture; web-share" allowfullscreen title="Видео о компании"></iframe>
+            </div>
+            <div class="about-text">
+                <div class="section-label">О компании</div>
+                <h2 class="section-title">Создаём пространство, в котором легко ориентироваться</h2>
+                <p>Компания «Неон Сити» специализируется на разработке и внедрении систем навигации и визуальной коммуникации. Мы работаем на всех этапах — от анализа и проектирования до производства, согласования и монтажа.</p>
+                <p>Наша цель — сделать так, чтобы люди находили нужное место за считанные секунды. Грамотная навигация повышает лояльность клиентов, снижает нагрузку на персонал и создаёт положительный имидж объекта.</p>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Собственное производство</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Проектная документация</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Согласование с городом</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Монтаж и сервис</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>3D-визуализация проектов</span>
+                    </div>
+                    <div class="about-feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Гарантия на все работы</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+    <div class="container">
+        <div class="section-label">Услуги</div>
+        <h2 class="section-title">Полный цикл разработки навигации</h2>
+        <p class="section-desc">Комплексные решения для бизнеса, медицины, торговли, гостиниц и общественных пространств.</p>
+        <div class="services-grid">
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
+                <h3>Проектирование</h3>
+                <p>Анализ среды, разработка концепции навигации, создание чертежей и спецификаций, 3D-визуализация.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-paint-brush"></i></div>
+                <h3>Дизайн</h3>
+                <p>Разработка фирменного стиля навигации, цветовая схема, типографика, адаптация под архитектуру объекта.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-industry"></i></div>
+                <h3>Производство</h3>
+                <p>Изготовление табличек, указателей, информационных стендов, объёмных букв, световых конструкций из различных материалов.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-file-signature"></i></div>
+                <h3>Согласование</h3>
+                <p>Получение разрешений, согласование с надзорными органами, подготовка документации по ГОСТ.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-truck-moving"></i></div>
+                <h3>Логистика и монтаж</h3>
+                <p>Доставка, установка навигационных элементов, подключение подсветки, контроль качества.</p>
+            </div>
+            <div class="service-card">
+                <div class="service-icon"><i class="fas fa-tools"></i></div>
+                <h3>Сервис и обслуживание</h3>
+                <p>Гарантийное и постгарантийное обслуживание, замена повреждённых элементов, модернизация систем.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section class="portfolio" id="portfolio">
+    <div class="container">
+        <div class="section-label">Портфолио</div>
+        <h2 class="section-title">Реализованные проекты</h2>
+        <p class="section-desc">Более 1200 успешно внедрённых навигационных систем по всей России.</p>
+        <div class="portfolio-grid">
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="sport-1.jpg" class="portfolio-slide active" alt="Навигация стадиона">
+                    <img src="sport-2.jpg" class="portfolio-slide" alt="Навигация стадиона">
+                    <img src="sport-3.jpg" class="portfolio-slide" alt="Навигация стадиона">
+                    <img src="sport-4.jpg" class="portfolio-slide" alt="Навигация стадиона">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Спортивные объекты</div>
+                    <h3>Навигация на стадионе «Лужники»</h3>
+                    <p>Комплексная система указателей, зонирование, входные группы</p>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="park-1.jpg" class="portfolio-slide active" alt="Навигация в парке">
+                    <img src="park-2.jpg" class="portfolio-slide" alt="Навигация в парке">
+                    <img src="park-3.jpg" class="portfolio-slide" alt="Навигация в парке">
+                    <img src="park-4.jpg" class="portfolio-slide" alt="Навигация в парке">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Навигация в парках</div>
+                    <h3>Навигация в парке «Коломенское»</h3>
+                    <p>Система указателей, карты-стенды, маршрутная навигация</p>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="zhk-1.jpg" class="portfolio-slide active" alt="Навигация на территории ЖК">
+                    <img src="zhk-2.jpg" class="portfolio-slide" alt="Навигация на территории ЖК">
+                    <img src="zhk-3.jpg" class="portfolio-slide" alt="Навигация на территории ЖК">
+                    <img src="zhk-4.jpg" class="portfolio-slide" alt="Навигация на территории ЖК">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Навигация на территории ЖК</div>
+                    <h3>ЖК «Серебряный фонтан»</h3>
+                    <p>Система указателей, элементы навигации на территории жилого комплекса</p>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="roof-1.jpg" class="portfolio-slide active" alt="Крышные установки">
+                    <img src="roof-2.jpg" class="portfolio-slide" alt="Крышные установки">
+                    <img src="roof-3.jpg" class="portfolio-slide" alt="Крышные установки">
+                    <img src="roof-4.jpg" class="portfolio-slide" alt="Крышные установки">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Наружная реклама</div>
+                    <h3>Крышные установки</h3>
+                    <p>Разработка проектной документации, производство, согласование и монтаж</p>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="metro-1.jpg" class="portfolio-slide active" alt="Навигация для города">
+                    <img src="metro-2.jpg" class="portfolio-slide" alt="Навигация для города">
+                    <img src="metro-3.jpg" class="portfolio-slide" alt="Навигация для города">
+                    <img src="metro-4.jpg" class="portfolio-slide" alt="Навигация для города">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Городская среда</div>
+                    <h3>Навигация для города</h3>
+                    <p>Указатели для метро, вывески, производство и монтаж</p>
+                </div>
+            </div>
+            <div class="portfolio-card">
+                <div class="portfolio-slider">
+                    <img src="facade-1.jpg" class="portfolio-slide active" alt="Фасадные вывески">
+                    <img src="facade-2.jpg" class="portfolio-slide" alt="Фасадные вывески">
+                    <img src="facade-3.jpg" class="portfolio-slide" alt="Фасадные вывески">
+                    <img src="facade-4.jpg" class="portfolio-slide" alt="Фасадные вывески">
+                    <button class="portfolio-slider-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+                    <button class="portfolio-slider-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+                    <div class="portfolio-slider-dots"></div>
+                </div>
+                <div class="portfolio-overlay">
+                    <div class="portfolio-category">Наружная реклама</div>
+                    <h3>Фасадные вывески</h3>
+                    <p>Выезд на замер, Предоставляем гарантию на все виды работ</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients" id="clients">
+    <div class="container">
+        <div class="section-label">Клиенты</div>
+        <h2 class="section-title">Нам доверяют</h2>
+        <p class="section-desc">Крупные международные бренды, торговые и бизнес-центры, кинотеатры, отели, рестораны и магазины.</p>
+        <div class="clients-grid">
+            <div class="client-item" title="Газпром"><img src="clients/logo16.png" alt="Газпром"></div>
+            <div class="client-item" title="Marriott"><img src="clients/logo22.png" alt="Marriott"></div>
+            <div class="client-item" title="Мега"><img src="clients/logo21.png" alt="Мега"></div>
+            <div class="client-item"><img src="clients/logo5.png" alt=""></div>
+            <div class="client-item" title="Роквул"><img src="clients/logo_rokvul.png" alt="Роквул"></div>
+            <div class="client-item"><img src="clients/logo10.png" alt=""></div>
+            <div class="client-item" title="METRO"><img src="clients/logo27.png" alt="METRO"></div>
+            <div class="client-item"><img src="clients/logo8.png" alt=""></div>
+            <div class="client-item" title="БКС"><img src="clients/logo_bks.png" alt="БКС"></div>
+            <div class="client-item"><img src="clients/logo1-1.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo3.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo6.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo7.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo9.png" alt=""></div>
+            <div class="client-item" title="Level"><img src="clients/logo_level.png" alt="Level"></div>
+            <div class="client-item"><img src="clients/logo12.png" alt=""></div>
+            <div class="client-item" title="Московский метрополитен"><img src="clients/logo25.png" alt="Московский метрополитен"></div>
+            <div class="client-item"><img src="clients/logo15.png" alt=""></div>
+            <div class="client-item" title="Paulig"><img src="clients/logo17.png" alt="Paulig"></div>
+            <div class="client-item"><img src="clients/logo18.png" alt=""></div>
+            <div class="client-item" title="Капитолий"><img src="clients/logo19.png" alt="Капитолий"></div>
+            <div class="client-item" title="Mail"><img src="clients/logo20.png" alt="Mail"></div>
+            <div class="client-item" title="Mercury"><img src="clients/logo23.png" alt="Mercury"></div>
+            <div class="client-item" title="Oracle"><img src="clients/logo24.png" alt="Oracle"></div>
+            <div class="client-item"><img src="clients/logo2-1.png" alt=""></div>
+        </div>
+    </div>
+</section>
+
+<!-- ADVANTAGES -->
+<section class="advantages">
+    <div class="container">
+        <div class="section-label">Преимущества</div>
+        <h2 class="section-title">Почему выбирают нас</h2>
+        <p class="section-desc">Мы сочетаем глубокую экспертизу в навигации с современным производством и вниманием к деталям.</p>
+        <div class="advantages-grid">
+            <div class="advantage-item">
+                <div class="advantage-number">01</div>
+                <h4>Собственное производство</h4>
+                <p>Полный цикл изготовления на собственных мощностях — от идеи до монтажа</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">02</div>
+                <h4>Индивидуальный подход</h4>
+                <p>Каждый проект уникален — разрабатываем решения под конкретный объект и задачи</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">03</div>
+                <h4>Соответствие ГОСТ</h4>
+                <p>Все решения соответствуют нормативным требованиям и стандартам безопасности</p>
+            </div>
+            <div class="advantage-item">
+                <div class="advantage-number">04</div>
+                <h4>Гарантия и сервис</h4>
+                <p>Предоставляем гарантию и обеспечиваем долгосрочное обслуживание систем</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+    <div class="container">
+        <div class="section-label">Как мы работаем</div>
+        <h2 class="section-title">Этапы реализации проекта</h2>
+        <p class="section-desc">Прозрачный процесс от первого контакта до запуска проекта в эксплуатацию.</p>
+        <div class="process-steps">
+            <div class="process-step">
+                <div class="step-icon"><i class="fas fa-comments"></i></div>
+                <div class="step-number">Этап 01</div>
+                <h4>Консультация</h4>
+                <p>Анализ объекта, определение задач и объёма работ</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon"><i class="fas fa-lightbulb"></i></div>
+                <div class="step-number">Этап 02</div>
+                <h4>Проектирование</h4>
+                <p>Разработка концепции, чертежей и 3D-визуализации</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon"><i class="fas fa-cogs"></i></div>
+                <div class="step-number">Этап 03</div>
+                <h4>Производство</h4>
+                <p>Изготовление элементов навигации на производстве</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon"><i class="fas fa-check-double"></i></div>
+                <div class="step-number">Этап 04</div>
+                <h4>Согласование</h4>
+                <p>Получение необходимых разрешений и одобрений</p>
+            </div>
+            <div class="process-step">
+                <div class="step-icon"><i class="fas fa-truck"></i></div>
+                <div class="step-number">Этап 05</div>
+                <h4>Монтаж</h4>
+                <p>Доставка, установка и ввод системы в эксплуатацию</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+    <div class="container">
+        <div class="cta-content">
+            <div class="cta-text">
+                <h2>Готовы обсудить ваш проект?</h2>
+                <p>Оставьте заявку — мы свяжемся с вами в течение 24 часов</p>
+            </div>
+            <a href="#contacts" class="btn-outline">Связаться с нами</a>
+        </div>
+    </div>
+</section>
+
+<!-- CONTACTS -->
+<section class="contacts" id="contacts">
+    <div class="container">
+        <div class="contacts-grid">
+            <div class="contact-info">
+                <div class="section-label">Контакты</div>
+                <h3>Свяжитесь с нами</h3>
+                <div class="contact-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <div class="contact-item-text">
+                        <span>Телефон</span>
+                        <a href="tel:+74957305454">+7 (495) 730-54-54</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <div class="contact-item-text">
+                        <span>Email</span>
+                        <a href="mailto:zakaz@neoncity.ru">zakaz@neoncity.ru</a>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div class="contact-item-text">
+                        <span>Адрес</span>
+                        <p>109428, Москва, Рязанский пр., д. 8а, стр. 14, оф. 1507</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-clock"></i>
+                    <div class="contact-item-text">
+                        <span>Режим работы</span>
+                        <p>Пн–Пт: 9:00–18:00</p>
+                    </div>
+                </div>
+                <div class="contact-item">
+                    <i class="fab fa-whatsapp"></i>
+                    <div class="contact-item-text">
+                        <span>WhatsApp / Telegram</span>
+                        <a href="https://wa.me/79859911775">+7 (985) 991-17-75</a>
+                    </div>
+                </div>
+            </div>
+            <div class="contact-form">
+                <h3>Оставить заявку</h3>
+                <form onsubmit="event.preventDefault(); alert('Спасибо! Мы свяжемся с вами в ближайшее время.');">
+                    <div class="form-group">
+                        <input type="text" placeholder="Ваше имя" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" placeholder="Телефон" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <textarea placeholder="Опишите ваш проект или задачу..."></textarea>
+                    </div>
+                    <button type="submit" class="btn-primary">Отправить заявку <i class="fas fa-paper-plane"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="container">
+        <div class="footer-inner">
+            <div class="footer-logo"><img src="logo-ns.png" alt="Неон Сити"></div>
+            <div class="footer-copy">&copy; 2026 Неон Сити. Разработка систем навигации и визуальной коммуникации.</div>
+            <div class="footer-socials">
+                <a href="#"><i class="fab fa-telegram"></i></a>
+                <a href="#"><i class="fab fa-whatsapp"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-vk"></i></a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="lightbox" id="lightbox">
+    <span class="lightbox-close" aria-label="Закрыть"><i class="fas fa-times"></i></span>
+    <img src="" alt="Просмотр фото" class="lightbox-img">
+    <button class="lightbox-btn prev" aria-label="Назад"><i class="fas fa-chevron-left"></i></button>
+    <button class="lightbox-btn next" aria-label="Вперёд"><i class="fas fa-chevron-right"></i></button>
+</div>
+
+<script>
+    const sliders = document.querySelectorAll('.portfolio-slider');
+    const lightbox = document.getElementById('lightbox');
+    const lightboxImg = lightbox.querySelector('.lightbox-img');
+    let current = null;
+
+    sliders.forEach(function (slider) {
+        const images = slider.querySelectorAll('.portfolio-slide');
+        const dotsHost = slider.querySelector('.portfolio-slider-dots');
+        let index = 0;
+
+        images.forEach(function (_, i) {
+            const dot = document.createElement('span');
+            dot.onclick = function () { index = i; show(); };
+            dotsHost.appendChild(dot);
+        });
+
+        function show() {
+            images.forEach(function (img, i) {
+                img.classList.toggle('active', i === index);
+                if (dotsHost.children[i]) {
+                    dotsHost.children[i].classList.toggle('active', i === index);
+                }
+            });
+        }
+
+        const prev = slider.querySelector('.portfolio-slider-btn.prev');
+        const next = slider.querySelector('.portfolio-slider-btn.next');
+        if (prev) prev.addEventListener('click', function () { index = (index - 1 + images.length) % images.length; show(); });
+        if (next) next.addEventListener('click', function () { index = (index + 1) % images.length; show(); });
+
+        show();
+        setInterval(function () {
+            if (lightbox.classList.contains('active')) return;
+            index = (index + 1) % images.length;
+            show();
+        }, 5000);
+
+        const card = slider.closest('.portfolio-card');
+        if (card) card.addEventListener('click', function (e) {
+            if (e.target.closest('.portfolio-slider-btn')) return;
+            current = { images: images, index: index, show: show };
+            lightboxImg.src = images[index].src;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function navLightbox(dir) {
+        if (!current) return;
+        current.index = (current.index + dir + current.images.length) % current.images.length;
+        current.show();
+        lightboxImg.src = current.images[current.index].src;
+    }
+
+    function closeLightbox() {
+        lightbox.classList.remove('active');
+        lightboxImg.src = '';
+        document.body.style.overflow = '';
+        current = null;
+    }
+
+    lightbox.querySelector('.lightbox-close').addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', function (e) { if (e.target === lightbox) closeLightbox(); });
+    lightbox.querySelector('.lightbox-btn.prev').addEventListener('click', function () { navLightbox(-1); });
+    lightbox.querySelector('.lightbox-btn.next').addEventListener('click', function () { navLightbox(1); });
+    document.addEventListener('keydown', function (e) {
+        if (!lightbox.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowLeft') navLightbox(-1);
+        if (e.key === 'ArrowRight') navLightbox(1);
+    });
+</script>
+
+</body>
+</html>
