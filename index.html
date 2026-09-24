@@ -146,6 +146,11 @@
             color: var(--white);
         }
 
+        .header-phone a i {
+            margin-right: 8px;
+            color: var(--primary);
+        }
+
         .header-phone a:hover {
             color: var(--primary);
         }
@@ -575,7 +580,7 @@
 
         .portfolio-slider-btn {
             position: absolute;
-            top: 50%;
+            top: 36%;
             transform: translateY(-50%);
             background: rgba(0, 0, 0, 0.5);
             border: none;
@@ -704,17 +709,19 @@
             width: calc(20% - 16px);
             min-width: 160px;
             height: 110px;
-            background: var(--white);
+            background: linear-gradient(135deg, var(--dark-3), var(--dark-4));
+            border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 16px 24px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         }
 
         .client-item:hover {
             transform: translateY(-4px);
+            border-color: var(--primary);
             box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
         }
 
@@ -722,6 +729,16 @@
             max-width: 100%;
             max-height: 52px;
             object-fit: contain;
+            opacity: 0.9;
+            transition: opacity 0.3s ease;
+        }
+
+        .client-item img.mono {
+            filter: brightness(0) invert(1);
+        }
+
+        .client-item:hover img {
+            opacity: 1;
         }
 
         /* ADVANTAGES */
@@ -1165,7 +1182,7 @@
             </ul>
         </nav>
         <div class="header-phone">
-            <a href="tel:+74957305454">+7 (495) 730-54-54</a>
+<a href="tel:+74957305454"><i class="fas fa-phone-alt"></i>+7 (495) 730-54-54</a>
         </div>
         <div class="menu-toggle" onclick="document.getElementById('mainMenu').classList.toggle('active')">
             <span></span><span></span><span></span>
@@ -1250,7 +1267,7 @@
     <div class="container">
         <div class="section-label">Услуги</div>
         <h2 class="section-title">Полный цикл разработки навигации</h2>
-        <p class="section-desc">Комплексные решения для бизнеса, медицины, торговли, гостиниц и общественных пространств.</p>
+        <p class="section-desc">Комплексные решения для общественных пространств и парковых зон, бизнес и жилищных комплексов, медицинских и торговых учреждений.</p>
         <div class="services-grid">
             <div class="service-card">
                 <div class="service-icon"><i class="fas fa-drafting-compass"></i></div>
@@ -1290,8 +1307,8 @@
 <section class="portfolio" id="portfolio">
     <div class="container">
         <div class="section-label">Портфолио</div>
-        <h2 class="section-title">Реализованные проекты</h2>
-        <p class="section-desc">Более 1200 успешно внедрённых навигационных систем по всей России.</p>
+        <h2 class="section-title">Наши проекты</h2>
+        <p class="section-desc">Более 5000 успешно реализованных проектов по всей России.</p>
         <div class="portfolio-grid">
             <div class="portfolio-card">
                 <div class="portfolio-slider">
@@ -1398,31 +1415,31 @@
     <div class="container">
         <div class="section-label">Клиенты</div>
         <h2 class="section-title">Нам доверяют</h2>
-        <p class="section-desc">Крупные международные бренды, торговые и бизнес-центры, кинотеатры, отели, рестораны и магазины.</p>
+        <p class="section-desc">Крупные строительные компании и застройщики, международные бренды, государственные структуры, торговые и бизнес-центры.</p>
         <div class="clients-grid">
             <div class="client-item" title="Газпром"><img src="clients/logo16.png" alt="Газпром"></div>
             <div class="client-item" title="Marriott"><img src="clients/logo22.png" alt="Marriott"></div>
             <div class="client-item" title="Мега"><img src="clients/logo21.png" alt="Мега"></div>
-            <div class="client-item"><img src="clients/logo5.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo5.png" class="mono" alt=""></div>
             <div class="client-item" title="Роквул"><img src="clients/logo_rokvul.png" alt="Роквул"></div>
-            <div class="client-item"><img src="clients/logo10.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo10.png" class="mono" alt=""></div>
             <div class="client-item" title="METRO"><img src="clients/logo27.png" alt="METRO"></div>
             <div class="client-item"><img src="clients/logo8.png" alt=""></div>
             <div class="client-item" title="БКС"><img src="clients/logo_bks.png" alt="БКС"></div>
-            <div class="client-item"><img src="clients/logo1-1.png" alt=""></div>
+            <div class="client-item"><img src="clients/logo1-1.png" class="mono" alt=""></div>
             <div class="client-item"><img src="clients/logo3.png" alt=""></div>
             <div class="client-item"><img src="clients/logo6.png" alt=""></div>
             <div class="client-item"><img src="clients/logo7.png" alt=""></div>
             <div class="client-item"><img src="clients/logo9.png" alt=""></div>
-            <div class="client-item" title="Level"><img src="clients/logo_level.png" alt="Level"></div>
+            <div class="client-item" title="Level"><img src="clients/logo_level.png" class="mono" alt="Level"></div>
             <div class="client-item"><img src="clients/logo12.png" alt=""></div>
             <div class="client-item" title="Московский метрополитен"><img src="clients/logo25.png" alt="Московский метрополитен"></div>
-            <div class="client-item"><img src="clients/logo15.png" alt=""></div>
-            <div class="client-item" title="Paulig"><img src="clients/logo17.png" alt="Paulig"></div>
+            <div class="client-item"><img src="clients/logo15.png" class="mono" alt=""></div>
+            <div class="client-item" title="Paulig"><img src="clients/logo17.png" class="mono" alt="Paulig"></div>
             <div class="client-item"><img src="clients/logo18.png" alt=""></div>
             <div class="client-item" title="Капитолий"><img src="clients/logo19.png" alt="Капитолий"></div>
             <div class="client-item" title="Mail"><img src="clients/logo20.png" alt="Mail"></div>
-            <div class="client-item" title="Mercury"><img src="clients/logo23.png" alt="Mercury"></div>
+            <div class="client-item" title="Mercury"><img src="clients/logo23.png" class="mono" alt="Mercury"></div>
             <div class="client-item" title="Oracle"><img src="clients/logo24.png" alt="Oracle"></div>
             <div class="client-item"><img src="clients/logo2-1.png" alt=""></div>
         </div>
@@ -1434,7 +1451,7 @@
     <div class="container">
         <div class="section-label">Преимущества</div>
         <h2 class="section-title">Почему выбирают нас</h2>
-        <p class="section-desc">Мы сочетаем глубокую экспертизу в навигации с современным производством и вниманием к деталям.</p>
+        <p class="section-desc">Мы сочетаем глубокую экспертизу в разработке средств визуальной коммуникации навигации с современными производством и технологиями.</p>
         <div class="advantages-grid">
             <div class="advantage-item">
                 <div class="advantage-number">01</div>
@@ -1525,7 +1542,7 @@
                     <i class="fas fa-phone-alt"></i>
                     <div class="contact-item-text">
                         <span>Телефон</span>
-                        <a href="tel:+74957305454">+7 (495) 730-54-54</a>
+<a href="tel:+74957305454">+7 (495) 730-54-54</a>
                     </div>
                 </div>
                 <div class="contact-item">
